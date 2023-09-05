@@ -1,60 +1,58 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { ButtonAdd, Form, Input, Label } from './ContactForm.styled';
 
-export class ContactForm extends Component {
-  state = {
-    name: '',
-    number: '',
-  };
+export const ContactForm = ({ createContact }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
 
-  handleChange = ({ target }) => {
-    this.setState({
+  const handleChange = ({ target }) => {
+    setName({
+      [target.name]: target.value,
+    });
+
+    setNumber({
       [target.name]: target.value,
     });
   };
 
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
-    this.props.createContact({
-      name: this.state.name,
-      number: this.state.number,
+    createContact({
+      name: name,
+      number: number,
     });
-    this.reset();
+    reset();
   };
 
-  reset = () => {
-    this.setState({
-      name: '',
-      number: '',
-    });
+  const reset = () => {
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    return (
-      <Form type="submit" onSubmit={this.handleSubmit}>
-        <Label htmlFor="name">Name</Label>
-        <Input
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-          onChange={this.handleChange}
-          value={this.state.name}
-        />
+  return (
+    <Form type="submit" onSubmit={handleSubmit}>
+      <Label htmlFor="name">Name</Label>
+      <Input
+        type="text"
+        name="name"
+        pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+        required
+        onChange={handleChange}
+        value={name}
+      />
 
-        <Label htmlFor="tel">Number</Label>
-        <Input
-          type="text"
-          name="number"
-          pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
-          required
-          onChange={this.handleChange}
-          value={this.state.number}
-        />
-        <ButtonAdd type="submit"> Add contact</ButtonAdd>
-      </Form>
-    );
-  }
-}
+      <Label htmlFor="tel">Number</Label>
+      <Input
+        type="text"
+        name="number"
+        pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+        required
+        onChange={handleChange}
+        value={number}
+      />
+      <ButtonAdd type="submit"> Add contact</ButtonAdd>
+    </Form>
+  );
+};
