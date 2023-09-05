@@ -5,14 +5,19 @@ export const ContactForm = ({ createContact }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const handleChange = ({ target }) => {
-    setName({
-      [target.name]: target.value,
-    });
+  const handleChange = event => {
+    const { name, value } = event.target;
 
-    setNumber({
-      [target.name]: target.value,
-    });
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        return;
+    }
   };
 
   const handleSubmit = event => {
